@@ -1,5 +1,5 @@
-import HomeScreen from '@/src/screens/HomeScreen';
+import OnboardingScreen from '@/src/screens/OnboardingScreen';
 
 export default function Index() {
-  return <HomeScreen />;
+  return <OnboardingScreen />; // <--- Renderiza el onboarding
 }
