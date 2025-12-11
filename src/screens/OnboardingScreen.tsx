@@ -70,7 +70,7 @@ export default function OnboardingScreen() {
 
                 <Image
                     source={{ uri: slides[currentIndex].image }}
-                    className="w-full h-[380px]" 
+                    className="w-full h-[380px]"
                     resizeMode="contain"
                 />
             </View>
@@ -92,8 +92,8 @@ export default function OnboardingScreen() {
                                 <View
                                     key={index}
                                     className={`h-2 rounded-full ${currentIndex === index
-                                            ? "w-8 bg-amy-rosa"
-                                            : "w-2 bg-gray-300"
+                                        ? "w-8 bg-amy-rosa"
+                                        : "w-2 bg-gray-300"
                                         }`}
                                 />
                             ))}
