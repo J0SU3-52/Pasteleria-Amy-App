@@ -1,19 +1,67 @@
 import "@/global.css";
-import { Tabs } from 'expo-router';
+import { Feather } from "@expo/vector-icons";
+import { Tabs } from "expo-router";
+import { View } from "react-native";
 
 export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
-        // 1. ESTO QUITA LA BARRA DE ARRIBA (Donde dice "Welcome")
-        headerShown: false, 
-        
-        // 2. ESTO QUITA LA BARRA DE PESTAÑAS DE ABAJO (Opcional)
-        // (En la pantalla de bienvenida/onboarding se ve mal tener menús abajo)
-        tabBarStyle: { display: 'none' } 
+        headerShown: false,
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          backgroundColor: "#ffffff",
+          height: 70,
+          borderTopWidth: 0,
+          elevation: 10,
+        }
       }}
     >
-      <Tabs.Screen name="index" />
+
+      <Tabs.Screen
+        name="home"
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View className={`w-12 h-12 rounded-full ${focused ? "bg-[#fed7d7]" : ""} items-center justify-center`}>
+              <Feather name="home" size={24} color={focused ? "#E91E63" : "#999"} />
+            </View>
+          )
+        }}
+      />
+
+      <Tabs.Screen
+        name="categories"
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View className={`w-12 h-12 rounded-full ${focused ? "bg-[#fed7d7]" : ""} items-center justify-center`}>
+              <Feather name="grid" size={24} color={focused ? "#E91E63" : "#999"} />
+            </View>
+          )
+        }}
+      />
+
+      <Tabs.Screen
+        name="orders"
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View className={`w-12 h-12 rounded-full ${focused ? "bg-[#fed7d7]" : ""} items-center justify-center`}>
+              <Feather name="shopping-bag" size={24} color={focused ? "#E91E63" : "#999"} />
+            </View>
+          )
+        }}
+      />
+
+      <Tabs.Screen
+        name="profile"
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View className={`w-12 h-12 rounded-full ${focused ? "bg-[#fed7d7]" : ""} items-center justify-center`}>
+              <Feather name="user" size={24} color={focused ? "#E91E63" : "#999"} />
+            </View>
+          )
+        }}
+      />
+
     </Tabs>
   );
 }

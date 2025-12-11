@@ -9,7 +9,7 @@ export default function WelcomeScreen() {
             <StatusBar barStyle="light-content" backgroundColor="#5B2C6F" />
             <Image
                 source={AMY_LOGO}
-                className="w-80 h-80" 
+                className="w-80 h-80"
                 resizeMode="contain"
             />
         </View>
