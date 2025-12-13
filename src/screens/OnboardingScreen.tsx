@@ -1,115 +1,107 @@
-import { Feather } from '@expo/vector-icons';
-import React, { useState } from 'react';
-import { Image, StatusBar, Text, TouchableOpacity, View } from 'react-native';
+import { router } from "expo-router";
+import React, { useState } from "react";
+import { Image, StatusBar, Text, TouchableOpacity, View } from "react-native";
 
-// --- IMÁGENES PNG ---
+// NUEVAS IMÁGENES PREMIUM (estilo Bakery)
 const slides = [
     {
         id: 1,
-        title: "Recién horneados",
-        description: "Cada pieza es horneada el mismo día para garantizar la frescura y el sabor que te encanta.",
-        image: "https://w7.pngwing.com/pngs/664/140/png-transparent-birthday-cake-cupcake-chocolate-cake-cream-food-happy-birthday-to-you-thumbnail.png"
+        title: "Bienvenido a Pastelería Ammy",
+        description:
+            "Disfruta productos frescos, hechos cada día con ingredientes de alta calidad.",
+        image:
+            "https://images.unsplash.com/photo-1606851091891-6139da3d015f?auto=format&fit=crop&w=800&q=80",
     },
     {
         id: 2,
-        title: "Chocolate Premium",
-        description: "Usamos cacao 100% belga y técnicas artesanales para los amantes del verdadero chocolate.",
-        image: "https://w7.pngwing.com/pngs/1006/312/png-transparent-chocolate-truffle-chocolate-cake-birthday-cake-sachertorte-cake-cream-baked-goods-food-thumbnail.png"
+        title: "Delicias recién hechas",
+        description:
+            "Panques, galletas, pasteles y más. Todo preparado artesanalmente para ti.",
+        image:
+            "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=800&q=80",
     },
     {
         id: 3,
-        title: "Fruta Fresca",
-        description: "Seleccionamos las mejores frutas de temporada. Del campo directamente a tu postre favorito.",
-        image: "https://w7.pngwing.com/pngs/82/441/png-transparent-strawberry-fondant-cake-chocolate-cake-chocolate-truffle-tart-strawberry-chocolate-cake-cream-baked-goods-food-thumbnail.png"
-    }
+        title: "Listos para tu evento",
+        description:
+            "Ordena pasteles personalizados y sorprende a tus seres queridos.",
+        image:
+            "https://images.unsplash.com/photo-1587668178277-aa2dc0cc5b37?auto=format&fit=crop&w=800&q=80",
+    },
 ];
 
 export default function OnboardingScreen() {
-    const [currentIndex, setCurrentIndex] = useState(0);
+    const [index, setIndex] = useState(0);
 
-    const handleNext = () => {
-        if (currentIndex < slides.length - 1) {
-            setCurrentIndex(currentIndex + 1);
+    const next = () => {
+        if (index < slides.length - 1) {
+            setIndex(index + 1);
         } else {
-            console.log("Ir al Login");
+            router.replace("/(intro)/login");
         }
     };
 
-    const handleBack = () => {
-        if (currentIndex > 0) setCurrentIndex(currentIndex - 1);
+    const skip = () => {
+        router.replace("/(intro)/login");
     };
 
-    const handleSkip = () => {
-        setCurrentIndex(slides.length - 1);
-    };
-
-    const isLastSlide = currentIndex === slides.length - 1;
+    const slide = slides[index];
 
     return (
-        <View className="flex-1 bg-amy-crema">
-            <StatusBar barStyle="dark-content" backgroundColor="#fff7ed" />
+        <View className="flex-1 bg-white">
+            <StatusBar barStyle="dark-content" />
 
-            {/* 1. HEADER */}
-            <View className="w-full flex-row justify-between items-center px-6 pt-4 mt-8 z-10">
-                {currentIndex > 0 ? (
-                    <TouchableOpacity onPress={handleBack} className="p-2 bg-white/50 rounded-full">
-                        <Feather name="chevron-left" size={28} color="#E91E63" />
-                    </TouchableOpacity>
-                ) : <View />}
-
-                {!isLastSlide && (
-                    <TouchableOpacity onPress={handleSkip} className="bg-white/50 px-3 py-1 rounded-full">
-                        <Text className="text-amy-rosa font-bold text-base">Omitir</Text>
-                    </TouchableOpacity>
-                )}
-            </View>
-
-            {/* 2. ÁREA DE IMAGEN FLOTANTE */}
-            <View className="flex-1 justify-center items-center relative">
-                <View className="absolute w-64 h-64 bg-white/40 rounded-full blur-2xl" />
-
+            {/* TOP AREA WITH IMAGE */}
+            <View className="flex-[2] justify-end">
                 <Image
-                    source={{ uri: slides[currentIndex].image }}
-                    className="w-full h-[380px]"
-                    resizeMode="contain"
+                    source={{ uri: slide.image }}
+                    className="w-full h-full"
+                    resizeMode="cover"
                 />
+
+                {/* SKIP BUTTON */}
+                <TouchableOpacity
+                    onPress={skip}
+                    className="absolute right-6 top-12 bg-white/80 px-4 py-1 rounded-full"
+                >
+                    <Text className="text-amy-morado font-semibold">Skip</Text>
+                </TouchableOpacity>
             </View>
 
-            {/* 3. PANEL INFERIOR */}
-            <View className="px-6 pb-12 bg-white/60 rounded-t-[40px] shadow-lg">
-                <View className="pt-8">
-                    <Text className="text-3xl font-bold text-amy-morado text-center mb-3">
-                        {slides[currentIndex].title}
-                    </Text>
-                    <Text className="text-gray-600 text-center text-base mb-8 leading-6 px-4">
-                        {slides[currentIndex].description}
-                    </Text>
+            {/* BOTTOM PANEL */}
+            <View className="flex-[1.2] bg-white rounded-t-[40px] px-8 pb-12 pt-10 shadow-xl">
+                <Text className="text-center text-2xl font-bold text-amy-morado mb-3">
+                    {slide.title}
+                </Text>
 
-                    <View className="items-center w-full gap-6">
-                        {/* Paginación */}
-                        <View className="flex-row gap-2">
-                            {slides.map((_, index) => (
-                                <View
-                                    key={index}
-                                    className={`h-2 rounded-full ${currentIndex === index
-                                        ? "w-8 bg-amy-rosa"
-                                        : "w-2 bg-gray-300"
-                                        }`}
-                                />
-                            ))}
-                        </View>
+                <Text className="text-gray-600 text-center leading-6 mb-8">
+                    {slide.description}
+                </Text>
+
+                {/* PAGINATION DOTS INTERACTIVOS */}
+                <View className="flex-row justify-center mb-8">
+                    {slides.map((_, i) => (
                         <TouchableOpacity
-                            onPress={handleNext}
-                            className="bg-amy-morado w-full py-4 rounded-2xl shadow-lg shadow-amy-morado/30 active:opacity-90"
-                        >
-                            <Text className="text-white text-center font-bold text-xl">
-                                {isLastSlide ? "Empezar" : "Siguiente"}
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
+                            key={i}
+                            onPress={() => setIndex(i)}
+                            className={`
+                mx-1 h-2 rounded-full 
+                ${index === i ? "w-6 bg-amy-morado" : "w-2 bg-gray-300"}
+              `}
+                        />
+                    ))}
                 </View>
-            </View>
 
+                {/* BUTTON */}
+                <TouchableOpacity
+                    onPress={next}
+                    className="bg-amy-morado py-4 rounded-2xl"
+                >
+                    <Text className="text-center text-white font-bold text-lg">
+                        {index === slides.length - 1 ? "Comenzar" : "Siguiente"}
+                    </Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 }
